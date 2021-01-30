@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Артем Комаров](https://up.htmlacademy.ru/javascript/22/user/1422707).
-* Наставник: `Неизвестно`.
+* Наставник: [Владимир Коршунов](https://htmlacademy.ru/profile/bekobou).
 
 ---
 
