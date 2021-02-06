@@ -56,10 +56,10 @@ const makeObjectList = () => {
   for (let i = 0; i < SIMILAR_OBJECT_COUNT; i++) {
 
     // функция генерации одного объекта
-    const mainObject = () => {
+    const createOfferObject = () => {
       const result = {
-        id: +i+1,
-        url: `photos/${+i+1}.jpg`,
+        id: i+1,
+        url: `photos/${i+1}.jpg`,
         description: getRandomArrayElement(FOTO_DESC),
         likes: getRandomInteger(15, 200),
         comments : {
@@ -72,7 +72,7 @@ const makeObjectList = () => {
       return result;
     }
     // записываем результат выполнения функции в элемент
-    const elemnt = mainObject();
+    const elemnt = createOfferObject();
 
     // добавляем этот элемент в главный массив объектов
     mainObjectList.push(elemnt);
