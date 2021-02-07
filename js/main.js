@@ -43,7 +43,7 @@ const getRandomArrayElement = (elemets) => {
   return elemets[getRandomInteger(0, elemets.length - 1)];
 };
 
-const makeObjectList = new Array(SIMILAR_OBJECT_COUNT).fill(null).map(function (index) {
+const createOfferList = new Array(SIMILAR_OBJECT_COUNT).fill(null).map(function (index) {
   return {
     id: index + 1,
     url: `photos/${index + 1}.jpg`,
@@ -57,5 +57,5 @@ const makeObjectList = new Array(SIMILAR_OBJECT_COUNT).fill(null).map(function (
     },
   };
 });
-makeObjectList();
-// console.log(makeObjectList);
+createOfferList();
+// console.log(createOfferList);
