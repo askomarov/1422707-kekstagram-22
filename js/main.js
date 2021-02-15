@@ -1,3 +1,1 @@
-import { createOfferList } from './data.js'
-
-createOfferList();
+import './pictures.js'
