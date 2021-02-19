@@ -3,9 +3,6 @@ const createPicturesElemts = (pictures) => {
 
   const similiarPictures = pictures();
 
-  // получаем наш массив объетов данных для объявлений
-  // const similiarPictures = createOfferList();
-
   // родитель в который надо вставить сгенирированыне элементы
   const picturesElementsList = document.querySelector('.pictures');
 
@@ -25,7 +22,7 @@ const createPicturesElemts = (pictures) => {
     similiarPicturesFragment.appendChild(pictureElemet);
   })
 
-  // добваляем в родитель в разметку новый элемент pictureElemet
+  // добваляем в родитель фрагмент с готовыми картинками
   picturesElementsList.appendChild(similiarPicturesFragment);
 }
 
