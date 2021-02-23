@@ -18,18 +18,30 @@ const commentName = [
   'Артем', 'Сергей', 'Максим', 'Виталий', 'Елена', 'Галина', 'Татьяна', 'Игорь', 'Алексей', 'Мария', 'Марина', 'Михаил', 'Екатерина', 'Тарас', 'Мирослава',
 ];
 
-const createOfferList = () => new Array(SIMILAR_OBJECT_COUNT).fill(null).map(function (index) {
+const createComments = () => {
+  const commentsQuantity = getRandomInteger(0, 6);
+
+  return new Array(commentsQuantity).fill(null).map(() => {
+    return {
+      id: Number(getRandomInteger(0, 2000) + getRandomInteger(100, 300)),
+      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+      message: getRandomArrayElement(commentText),
+      name: getRandomArrayElement(commentName),
+    }
+  });
+};
+
+const createOfferList = () => new Array(SIMILAR_OBJECT_COUNT).fill(null).map((currentValue, index) => {
+
+  const comments = createComments();
+
   return {
     id: index + 1,
     url: `photos/${index + 1}.jpg`,
     description: getRandomArrayElement(photoDesc),
     likes: getRandomInteger(15, 200),
-    comments: {
-      id: Number(getRandomInteger(0, 2000) + getRandomInteger(100, 300)),
-      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-      message: getRandomArrayElement(commentText),
-      name: getRandomArrayElement(commentName),
-    },
+    comments,
   };
 });
+
 export { createOfferList };
