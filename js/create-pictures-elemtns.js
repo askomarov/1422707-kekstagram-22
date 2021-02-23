@@ -1,7 +1,7 @@
 
 const createPicturesElemts = (pictures) => {
 
-  const similiarPictures = pictures();
+  const similiarPictures = pictures;
 
   // родитель в который надо вставить сгенирированыне элементы
   const picturesElementsList = document.querySelector('.pictures');
@@ -18,6 +18,7 @@ const createPicturesElemts = (pictures) => {
     pictureElemet.querySelector('.picture__img').src = picture.url;
     pictureElemet.querySelector('.picture__likes').textContent = picture.likes;
     pictureElemet.querySelector('.picture__comments').textContent = picture.comments.length;
+    pictureElemet.querySelector('.picture__img').alt = picture.description;
     // добавляем каждый элемент в созданный DocumentFragment
     similiarPicturesFragment.appendChild(pictureElemet);
   })
