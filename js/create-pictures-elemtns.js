@@ -1,4 +1,4 @@
-
+import { showBigPicture, renderCommets } from './big-picture.js';
 const createPicturesElemts = (pictures) => {
 
   const similiarPictures = pictures;
@@ -21,6 +21,12 @@ const createPicturesElemts = (pictures) => {
     pictureElemet.querySelector('.picture__img').alt = picture.description;
     // добавляем каждый элемент в созданный DocumentFragment
     similiarPicturesFragment.appendChild(pictureElemet);
+
+    pictureElemet.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      showBigPicture(picture)
+      renderCommets(picture)
+    })
   })
 
   // добваляем в родитель фрагмент с готовыми картинками
