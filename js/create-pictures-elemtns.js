@@ -2,10 +2,8 @@ import { showBigPicture, renderCommets } from './big-picture.js';
 const createPicturesElemts = (pictures) => {
 
   const similiarPictures = pictures;
-
   // родитель в который надо вставить сгенирированыне элементы
   const picturesElementsList = document.querySelector('.pictures');
-
   // html шаблон который будем копировать
   const pictureElementTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -24,11 +22,10 @@ const createPicturesElemts = (pictures) => {
 
     pictureElemet.addEventListener('click', (evt) => {
       evt.preventDefault();
-      showBigPicture(picture)
-      renderCommets(picture)
+      showBigPicture(picture);
+      renderCommets(picture);
     })
   })
-
   // добваляем в родитель фрагмент с готовыми картинками
   picturesElementsList.appendChild(similiarPicturesFragment);
 }

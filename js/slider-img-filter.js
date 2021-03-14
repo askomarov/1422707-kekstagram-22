@@ -1,4 +1,3 @@
-
 /* global noUiSlider:readonly */
 const sliderFilter = document.querySelector('.effect-level__slider');
 
