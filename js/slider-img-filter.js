@@ -3,30 +3,43 @@ const sliderFilter = document.querySelector('.effect-level__slider');
 
 const uploadImg = document.querySelector('.img-upload__preview > img');
 const filterControlsInput = document.querySelectorAll('.effects__radio');
+const effectLevel = document.querySelector('.effect-level__value');
+
+const resetEffectImage = () => {
+  effectLevel.value = '';
+  uploadImg.style.filter = 'none';
+};
 
 const initSlider = (sliderElement) => {
-  noUiSlider.create(sliderElement, {
-    range: {
-      min: 0,
-      max: 100,
-    },
-    start: 50,
-    format: {
-      to: function (value) {
-        if (Number.isInteger(value)) {
-          return value.toFixed(0);
-        }
-        return value.toFixed(1);
+  const sliderBase = document.querySelector('.noUi-base')
+  // чтобы не было реинициализации - иначе ошибка, проверям что слайдер может уже есть?
+  if (!sliderBase) {
+    noUiSlider.create(sliderElement, {
+      range: {
+        min: 0,
+        max: 100,
       },
-      from: function (value) {
-        return parseFloat(value);
+      start: 50,
+      format: {
+        to: function (value) {
+          if (Number.isInteger(value)) {
+            return value.toFixed(0);
+          }
+          return value.toFixed(1);
+        },
+        from: function (value) {
+          return parseFloat(value);
+        },
       },
-    },
-  });
+    });
+  }
   sliderElement.classList.add('hidden')
 };
+
 const changeFilterImageValue = (sliderElement, img) => {
   sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
+    // при отправке формы или сбросе - не забыть сккинуть и значение effect.value
+    effectLevel.value = unencoded[handle];
     if (img.classList.contains('effects__preview--chrome')) {
       img.style.filter = `grayscale(${unencoded[handle]})`;
     }
@@ -43,7 +56,7 @@ const changeFilterImageValue = (sliderElement, img) => {
       img.style.filter = `brightness(${unencoded[handle]})`;
     }
   });
-}
+};
 
 const changeSliderOption = (sliderElement, array, img) => {
   for (let index = 0; index < array.length; index++) {
@@ -108,6 +121,6 @@ const sliderImgFilter = () => {
   initSlider(sliderFilter);
   changeFilterImageValue(sliderFilter, uploadImg)
   changeSliderOption(sliderFilter, filterControlsInput, uploadImg)
-}
+};
 
-export { sliderImgFilter };
+export { sliderImgFilter, resetEffectImage };

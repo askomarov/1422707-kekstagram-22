@@ -1,4 +1,5 @@
 import { isEscEvent } from '../util.js';
+const COMMENT_MAX_LENGTH = 140;
 
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const inputTags = uploadOverlay.querySelector('.text__hashtags');
@@ -70,6 +71,7 @@ const runValidateTags = (string) => {
     }
   }
   // если всё тру ошибка сбрасывается
+  inputTags.style.boxShadow = '';
   inputTags.setCustomValidity('');
   return true;
 };
@@ -82,6 +84,7 @@ const onInputTagValidateListener = () => {
     const inputText = inputTags.value;
     // если проверка возвращает false - выводится ошибка
     if (runValidateTags(inputText) === false) {
+      inputTags.style.boxShadow = 'inset 0 0 3px 1px red';
       inputTags.reportValidity();
     }
   });
@@ -89,7 +92,17 @@ const onInputTagValidateListener = () => {
 
 const onCommentInputListener = () => {
   commentInput.addEventListener('keydown', onEcsKeyDown)
-}
+  commentInput.addEventListener('input', () => {
+    if (commentInput.value.length > COMMENT_MAX_LENGTH) {
+      commentInput.setCustomValidity('Комментарий не должен превышать 140 символов; Удалите лишние ' + (commentInput.value.length - COMMENT_MAX_LENGTH) +' симв.')
+      commentInput.style.boxShadow = 'inset 0 0 5px 3px red';
+    } else {
+      commentInput.setCustomValidity('');
+      commentInput.style.boxShadow = '';
+    }
+    commentInput.reportValidity();
+  });
+};
 
 const onEcsKeyDown = (evt) => {
   if (isEscEvent(evt)) {

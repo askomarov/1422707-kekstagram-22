@@ -1,3 +1,5 @@
+const uploadImg = document.querySelector('.img-upload__preview > img');
+
 const onbuttonSetScaleValue = (button, button2, input, btnValue, btnOffValue, img) => {
   button.addEventListener('click', () => {
     button2.removeAttribute('disabled', 'disabled');
@@ -25,6 +27,8 @@ const setImgTransformeStyle = (img, value) => {
   img.style.transform = `scale(${value})`;
 }
 
-// setImgTransformeStyle();
+const resetScaleImage = () => {
+  uploadImg.style.transform = '';
+}
 
-export { onbuttonSetScaleValue };
+export { onbuttonSetScaleValue, resetScaleImage };

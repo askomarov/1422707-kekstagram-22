@@ -11,7 +11,7 @@ const getRandomInteger = function (min, max) {
 
 const checkStringLength = function (string, MAX_LENGTH = 140) {
   return string.length <= MAX_LENGTH
-}
+};
 
 //  функция получения случайного элемента из массива
 const getRandomArrayElement = (elemets) => {
@@ -22,4 +22,27 @@ const isEscEvent = (evt) => {
   return evt.key === ('Escape' || 'Esc');
 };
 
-export { getRandomInteger, checkStringLength, getRandomArrayElement, isEscEvent };
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 1000;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '50%';
+  alertContainer.style.top = '50%';
+  alertContainer.style.width = '320px';
+  alertContainer.style.height = 'auto';
+  alertContainer.style.transform = 'translate(-50%, -50%)';
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'tomato';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, 5000);
+};
+
+export { getRandomInteger, checkStringLength, getRandomArrayElement, isEscEvent, showAlert};

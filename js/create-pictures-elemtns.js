@@ -1,4 +1,5 @@
 import { showBigPicture, renderCommets } from './big-picture.js';
+
 const createPicturesElemts = (pictures) => {
 
   const similiarPictures = pictures;

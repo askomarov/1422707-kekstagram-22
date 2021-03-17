@@ -2,6 +2,7 @@ import { isEscEvent } from './util.js'
 import { onbuttonSetScaleValue } from './scale-upload-img.js';
 import { changeFilterImg } from './change-filter-img.js';
 import { sliderImgFilter } from './slider-img-filter.js';
+import { resetUploadForm } from './form/form.js';
 
 const scaleValueInput = document.querySelector('.scale__control--value');
 const scaleButtonBigger = document.querySelector('.scale__control--bigger');
@@ -28,13 +29,13 @@ const closeUploadModal = () => {
   document.removeEventListener('keydown', onModalEscKeydown);
   uploadInput.value = '';
   uploadImg.classList = '';
-}
+};
 
 const openUploadModal = () => {
   uploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onModalEscKeydown);
-}
+};
 
 const userModalUpload = () => {
 
@@ -50,6 +51,7 @@ const userModalUpload = () => {
 
   closeCancelButton.addEventListener('click', () => {
     closeUploadModal();
+    resetUploadForm();
   })
 };
-export { userModalUpload };
+export { userModalUpload, closeUploadModal };
