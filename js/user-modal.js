@@ -4,6 +4,10 @@ import { changeFilterImg } from './change-filter-img.js';
 import { sliderImgFilter } from './slider-img-filter.js';
 import { resetUploadForm } from './form/form.js';
 
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+const defaultImg = 'img/upload-default-image.jpg';
+
 const scaleValueInput = document.querySelector('.scale__control--value');
 const scaleButtonBigger = document.querySelector('.scale__control--bigger');
 const scaleButtonSmaller = document.querySelector('.scale__control--smaller');
@@ -29,6 +33,7 @@ const closeUploadModal = () => {
   document.removeEventListener('keydown', onModalEscKeydown);
   uploadInput.value = '';
   uploadImg.classList = '';
+  resetImageSrc();
 };
 
 const openUploadModal = () => {
@@ -38,7 +43,6 @@ const openUploadModal = () => {
 };
 
 const userModalUpload = () => {
-
   uploadInput.addEventListener('change', () => {
     openUploadModal();
     sliderImgFilter();
@@ -54,4 +58,30 @@ const userModalUpload = () => {
     resetUploadForm();
   })
 };
-export { userModalUpload, closeUploadModal };
+
+const setUploadIMg = () => {
+  uploadInput.addEventListener('change', () => {
+    const file = uploadInput.files[0];
+    const fileName = file.name.toLowerCase();
+
+    const matches = FILE_TYPES.some((it) => {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        uploadImg.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
+};
+
+const resetImageSrc = () => {
+  uploadImg.src = defaultImg;
+};
+
+export { userModalUpload, closeUploadModal, setUploadIMg };
