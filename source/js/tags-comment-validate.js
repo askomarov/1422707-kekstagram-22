@@ -1,4 +1,5 @@
-import { isEscEvent } from '../util.js';
+import { isEscEvent } from './util.js';
+
 const COMMENT_MAX_LENGTH = 140;
 
 const uploadOverlay = document.querySelector('.img-upload__overlay');
@@ -78,7 +79,7 @@ const runValidateTags = (string) => {
 
 const onInputTagValidateListener = () => {
   // как только мы в инпуте, вешает обработчик ECS
-  inputTags.addEventListener('keydown', onEcsKeyDown)
+  inputTags.addEventListener('keydown', onEcsKeyDown);
 
   inputTags.addEventListener('input', () => {
     const inputText = inputTags.value;

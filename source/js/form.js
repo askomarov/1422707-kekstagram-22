@@ -1,12 +1,11 @@
-import { isEscEvent } from '../util.js';
-import { sendData } from '../get-send-data.js';
-import { resetEffectImage } from '../slider-img-filter.js';
-import { resetScaleImage } from '../scale-upload-img.js';
-import { closeUploadModal } from '../user-modal.js';
+import { isEscEvent } from './util.js';
+import { sendData } from './get-send-data.js';
+import { resetEffectImage } from './slider-img-filter.js';
+import { resetScaleImage } from './scale-upload-img.js';
+import { closeUploadModal } from './user-modal.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 
-//////// показ и скрытие сообщени при неусешной отправки формы
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 const mainContentWrap = document.querySelector('main');
 
@@ -16,6 +15,7 @@ const resetUploadForm = () => {
   resetScaleImage();
   closeUploadModal();
 };
+
 const onEscKeydownCloseError = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
@@ -28,6 +28,7 @@ const closePopupError = () => {
   document.removeEventListener('keydown', onEscKeydownCloseError);
   document.removeEventListener('click', onClickCloseError);
 };
+
 const onClickCloseError = (evt) => {
   if (evt.target.closest('.error__inner') === null) {
     closePopupError();
@@ -101,6 +102,5 @@ const submitForm = (sendURL) => {
     sendData(sendURL, new FormData(evt.target), onSuccessSubmit, onFailSubmit)
   });
 };
-
 
 export { submitForm, showErrorPopupMessage, showSuccessPopupMessage, resetUploadForm }

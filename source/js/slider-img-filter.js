@@ -1,6 +1,5 @@
 /* global noUiSlider:readonly */
 const sliderFilter = document.querySelector('.effect-level__slider');
-
 const uploadImg = document.querySelector('.img-upload__preview > img');
 const filterControlsInput = document.querySelectorAll('.effects__radio');
 const effectLevel = document.querySelector('.effect-level__value');
@@ -11,8 +10,8 @@ const resetEffectImage = () => {
 };
 
 const initSlider = (sliderElement) => {
-  const sliderBase = document.querySelector('.noUi-base')
-  // чтобы не было реинициализации - иначе ошибка, проверям что слайдер может уже есть?
+  const sliderBase = document.querySelector('.noUi-base');
+  // чтобы не было реинициализации - иначе ошибка, проверям есть ли слайдер?
   if (!sliderBase) {
     noUiSlider.create(sliderElement, {
       range: {
@@ -116,11 +115,10 @@ const changeSliderOption = (sliderElement, array, img) => {
   }
 };
 
-
-const sliderImgFilter = () => {
+const setSliderImgFilter = () => {
   initSlider(sliderFilter);
-  changeFilterImageValue(sliderFilter, uploadImg)
-  changeSliderOption(sliderFilter, filterControlsInput, uploadImg)
+  changeFilterImageValue(sliderFilter, uploadImg);
+  changeSliderOption(sliderFilter, filterControlsInput, uploadImg);
 };
 
-export { sliderImgFilter, resetEffectImage };
+export { setSliderImgFilter, resetEffectImage };

@@ -6,7 +6,6 @@ const bigPic = document.querySelector('.big-picture');
 const closeBigImg = bigPic.querySelector('.big-picture__cancel');
 const socialCommentCountBlock = bigPic.querySelector('.social__comment-count');
 const btnSocialCommentsLoader = bigPic.querySelector('.social__comments-loader');
-//
 const bigPicCommentsList = bigPic.querySelector('.social__comments');
 
 // фрагмент для комментариев

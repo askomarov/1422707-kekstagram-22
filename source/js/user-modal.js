@@ -1,8 +1,7 @@
-import { isEscEvent } from './util.js'
+import { isEscEvent } from './util.js';
 import { onbuttonSetScaleValue } from './scale-upload-img.js';
-import { changeFilterImg } from './change-filter-img.js';
-import { sliderImgFilter } from './slider-img-filter.js';
-import { resetUploadForm } from './form/form.js';
+import { setSliderImgFilter } from './slider-img-filter.js';
+import { resetUploadForm } from './form.js';
 
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
@@ -12,13 +11,26 @@ const scaleValueInput = document.querySelector('.scale__control--value');
 const scaleButtonBigger = document.querySelector('.scale__control--bigger');
 const scaleButtonSmaller = document.querySelector('.scale__control--smaller');
 
-let uploadInput = document.querySelector('#upload-file');
-let uploadOverlay = document.querySelector('.img-upload__overlay');
-let body = document.body;
-let closeCancelButton = document.querySelector('#upload-cancel');
+const uploadInput = document.querySelector('#upload-file');
+const uploadOverlay = document.querySelector('.img-upload__overlay');
+const body = document.body;
+const closeCancelButton = document.querySelector('#upload-cancel');
 
 const uploadImg = document.querySelector('.img-upload__preview > img');
-let filterControlsInput = document.querySelectorAll('.effects__radio');
+const filterControlsInput = document.querySelectorAll('.effects__radio');
+
+const changeFilterImg = (array, img) => {
+  for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+    element.addEventListener('click', () => {
+      if (element.checked == true) {
+        img.classList = '';
+        img.style.filter = '';
+        img.classList.add(`effects__preview--${element.value}`)
+      }
+    })
+  }
+};
 
 const onModalEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
@@ -45,7 +57,7 @@ const openUploadModal = () => {
 const userModalUpload = () => {
   uploadInput.addEventListener('change', () => {
     openUploadModal();
-    sliderImgFilter();
+    setSliderImgFilter();
   });
 
   onbuttonSetScaleValue(scaleButtonBigger, scaleButtonSmaller, scaleValueInput, +25, 100, uploadImg);

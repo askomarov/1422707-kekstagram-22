@@ -1,10 +1,10 @@
 
 import { createPicturesElemts } from './create-pictures-elemtns.js';
 import { userModalUpload, setUploadIMg } from './user-modal.js';
-import { onInputTagValidateListener, onCommentInputListener } from './form/tags-comment-validate.js';
+import { onInputTagValidateListener, onCommentInputListener } from './tags-comment-validate.js';
 import { getData } from './get-send-data.js';
 import { showAlert } from './util.js';
-import { submitForm } from './form/form.js';
+import { submitForm } from './form.js';
 
 import { showImgFilter, renderFilteredImages } from './img-filter.js';
 
