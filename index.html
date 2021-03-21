@@ -126,8 +126,10 @@
 
                 <!-- Добавление хэш-тегов и комментария к изображению -->
                 <fieldset class="img-upload__text text">
-                  <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег" maxlength="20" minlength="2" required>
-                  <textarea class="text__description" name="description" placeholder="Ваш комментарий..." maxlength="140"></textarea>
+                  <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег" maxlength="20" minlength="2"
+                    required>
+                  <textarea class="text__description" name="description" placeholder="Ваш комментарий..."
+                    maxlength="140"></textarea>
                 </fieldset>
 
                 <!-- Кнопка для отправки данных на сервер -->
@@ -248,7 +250,7 @@
   <template id="messages">
     <div class="img-upload__message  img-upload__message--loading">Загружаем...</div>
   </template>
-
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
   <script src="noUiSlider/nouislider.js"></script>
   <script src="js/main.js" type="module"></script>
 </body>

@@ -18,6 +18,17 @@ const getRandomArrayElement = (elemets) => {
   return elemets[getRandomInteger(0, elemets.length - 1)];
 };
 
+const getRandomUniqElemets = (data, RANDOM_COUNT) => {
+  const randomUniqData = [];
+  while (randomUniqData.length < RANDOM_COUNT) {
+    const element = data[getRandomInteger(0, data.length)];
+    if (!randomUniqData.includes(element) && element !== undefined) {
+      randomUniqData.push(element);
+    }
+  }
+  return randomUniqData;
+};
+
 const isEscEvent = (evt) => {
   return evt.key === ('Escape' || 'Esc');
 };
@@ -45,4 +56,4 @@ const showAlert = (message) => {
   }, 5000);
 };
 
-export { getRandomInteger, checkStringLength, getRandomArrayElement, isEscEvent, showAlert};
+export { getRandomInteger, checkStringLength, getRandomArrayElement, getRandomUniqElemets, isEscEvent, showAlert };
