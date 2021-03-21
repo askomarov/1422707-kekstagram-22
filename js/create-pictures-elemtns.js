@@ -23,8 +23,8 @@ const createPicturesElemts = (pictures) => {
 
     pictureElemet.addEventListener('click', (evt) => {
       evt.preventDefault();
-      showBigPicture(picture);
       renderCommets(picture);
+      showBigPicture(picture);
     })
   })
   // добваляем в родитель фрагмент с готовыми картинками
