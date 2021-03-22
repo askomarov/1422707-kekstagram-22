@@ -26,6 +26,6 @@ const createPicturesElemts = (pictures) => {
   })
   // добваляем в родитель фрагмент с готовыми картинками
   picturesElementsList.appendChild(similiarPicturesFragment);
-}
+};
 
 export { createPicturesElemts };

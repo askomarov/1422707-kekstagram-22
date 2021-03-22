@@ -1,4 +1,4 @@
-
+// надо делать лайки и счетчик +/- лайк
 import { createPicturesElemts } from './create-pictures-elemtns.js';
 import { userModalUpload, setUploadIMg } from './user-modal.js';
 import { onInputTagValidateListener, onCommentInputListener } from './tags-comment-validate.js';

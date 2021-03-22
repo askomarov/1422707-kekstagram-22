@@ -8,6 +8,23 @@ const socialCommentCountBlock = bigPic.querySelector('.social__comment-count');
 const btnSocialCommentsLoader = bigPic.querySelector('.social__comments-loader');
 const bigPicCommentsList = bigPic.querySelector('.social__comments');
 
+const onLikesCountClick = (evt) => {
+  if (evt.target.classList.contains('likes-count--active')) {
+    evt.target.textContent = Number(evt.target.textContent) - 1;
+    evt.target.classList.remove('likes-count--active');
+    return;
+  } else {
+    evt.target.textContent = Number(evt.target.textContent) + 1;
+    evt.target.classList.add('likes-count--active');
+    return;
+  }
+};
+
+const onLikesCountClickListener = () => {
+  const likesCount = document.querySelector('.likes-count');
+  likesCount.addEventListener('click', onLikesCountClick)
+};
+
 // фрагмент для комментариев
 const commentsFragments = new DocumentFragment();
 // функция генерации элемента комментария
@@ -36,21 +53,27 @@ const renderCommets = (item) => {
   }
 };
 
+const renderCommentsCount = (num, length) => {
+  socialCommentCountBlock.innerHTML = `${num} из <span class="comments-count">${length}</span> комментариев`;
+};
+
 const openBigPicture = () => {
   bigPic.classList.remove('hidden');
   document.body.classList.add('modal-open')
   document.addEventListener('keydown', onPopupEscKeydown);
 
-  socialCommentCountBlock.classList.add('hidden');
+  // socialCommentCountBlock.classList.add('hidden');
   // при открытии запускаем проверку на комменты, показываем разрешенное кол-во
   showVisibleComments();
+  onLikesCountClickListener();
 };
 
 const closeBigPicture = () => {
   bigPic.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscKeydown);
-  btnSocialCommentsLoader.removeEventListener('click', onBtnComment)
+  btnSocialCommentsLoader.removeEventListener('click', onBtnComment);
+  // likesCount.removeEventListener('click', onLikesCountClick)
   // при закрытии большой картинки - снова приравниваем к 5 допустимое число видимых комментариев
   visibleCommentsLength = DEFAULT_VISIBLE_COMMENTS;
 };
@@ -84,10 +107,12 @@ const showVisibleComments = () => {
   const comments = document.querySelectorAll('.social__comment');
   if (comments.length > DEFAULT_VISIBLE_COMMENTS) {
     btnSocialCommentsLoader.classList.remove('hidden');
+    renderCommentsCount(visibleCommentsLength, comments.length);
     for (let index = 0; index < comments.length; index++) {
       const element = comments[index];
       if (index >= visibleCommentsLength) {
         element.classList.add('hidden');
+
       }
       else {
         element.classList.remove('hidden');
@@ -95,6 +120,7 @@ const showVisibleComments = () => {
     }
   }
   if (comments.length <= visibleCommentsLength) {
+    renderCommentsCount(comments.length, comments.length);
     btnSocialCommentsLoader.classList.add('hidden');
   }
 };
