@@ -9,7 +9,7 @@ const uploadForm = document.querySelector('#upload-select-image');
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 const mainContentWrap = document.querySelector('main');
 
-const resetUploadForm = () => {
+const resetFormsData = () => {
   uploadForm.reset();
   resetEffectImage();
   resetScaleImage();
@@ -50,7 +50,7 @@ const showErrorPopupMessage = () => {
 };
 
 const onFailSubmit = () => {
-  resetUploadForm();
+  resetFormsData();
   showErrorPopupMessage();
 };
 
@@ -92,15 +92,15 @@ const showSuccessPopupMessage = () => {
 
 ///////// отправка формы нового объяаления
 const onSuccessSubmit = () => {
-  resetUploadForm();
+  resetFormsData();
   showSuccessPopupMessage();
 };
 
-const submitForm = (sendURL) => {
+const onSubmitSendData = (sendURL) => {
   uploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     sendData(sendURL, new FormData(evt.target), onSuccessSubmit, onFailSubmit)
   });
 };
 
-export { submitForm, showErrorPopupMessage, showSuccessPopupMessage, resetUploadForm }
+export { onSubmitSendData, showErrorPopupMessage, showSuccessPopupMessage, resetFormsData }

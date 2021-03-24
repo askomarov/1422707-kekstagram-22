@@ -1,7 +1,7 @@
 import { isEscEvent } from './util.js';
 import { onbuttonSetScaleValue } from './scale-upload-img.js';
 import { setSliderImgFilter } from './slider-img-filter.js';
-import { resetUploadForm } from './form.js';
+import { resetFormsData } from './form.js';
 
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
@@ -18,6 +18,10 @@ const closeCancelButton = document.querySelector('#upload-cancel');
 
 const uploadImg = document.querySelector('.img-upload__preview > img');
 const filterControlsInput = document.querySelectorAll('.effects__radio');
+
+const setDefaultImgSrc = () => {
+  uploadImg.src = defaultImg;
+};
 
 const changeFilterImg = (array, img) => {
   for (let index = 0; index < array.length; index++) {
@@ -45,7 +49,7 @@ const closeUploadModal = () => {
   document.removeEventListener('keydown', onModalEscKeydown);
   uploadInput.value = '';
   uploadImg.classList = '';
-  resetImageSrc();
+  setDefaultImgSrc();
 };
 
 const openUploadModal = () => {
@@ -54,7 +58,7 @@ const openUploadModal = () => {
   document.addEventListener('keydown', onModalEscKeydown);
 };
 
-const userModalUpload = () => {
+const onUploadShowModal = () => {
   uploadInput.addEventListener('change', () => {
     openUploadModal();
     setSliderImgFilter();
@@ -67,11 +71,11 @@ const userModalUpload = () => {
 
   closeCancelButton.addEventListener('click', () => {
     closeUploadModal();
-    resetUploadForm();
+    resetFormsData();
   })
 };
 
-const setUploadIMg = () => {
+const renderUploadImg = () => {
   uploadInput.addEventListener('change', () => {
     const file = uploadInput.files[0];
     const fileName = file.name.toLowerCase();
@@ -92,8 +96,4 @@ const setUploadIMg = () => {
   });
 };
 
-const resetImageSrc = () => {
-  uploadImg.src = defaultImg;
-};
-
-export { userModalUpload, closeUploadModal, setUploadIMg };
+export { onUploadShowModal, closeUploadModal, renderUploadImg };

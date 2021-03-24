@@ -8,7 +8,7 @@ const commentInput = uploadOverlay.querySelector('.text__description');
 
 // валидный тег - это тот что начинается с решетки и дальше содержит от 1 до 19
 // любого алфавитно-цифрового символа из базового латинского алфавита [A-Za-z0-9_]
-const validateTag = (tag) => {
+const checkValidityTag = (tag) => {
   // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp
   // создадим регульярное выражение
   const regexp = /^#\w{1,19}$/;
@@ -17,18 +17,7 @@ const validateTag = (tag) => {
   // matchIt будет присвоено null и в этом случаем получим matchIt !== null вернет false, проверка не пройдена
   // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/match
   const matchIt = tag.match(regexp);
-  // -------- проверяем соответсвие правилу
-  // if (matchIt !== null) {
-  //   // console.log(matchIt);
-  //   console.log('проверка пройдена');
-  //   return true;
-  // } else {
-  //   console.log('проверка не пройдена');
-  //   return false;
-  // }
-  // -------- или так
-  // return matchIt !== null ? true : false ;
-  // -------- или так
+  // -------- возвращаем результут проверки соответсвия правилу
   return matchIt !== null;
 };
 // чтобы получить отдельный тег из инпута надо разобрать введеный текст
@@ -66,7 +55,7 @@ const runValidateTags = (string) => {
       return false;
     }
     // проверяем тег по нашему регулярному выражению
-    if (!validateTag(tag)) {
+    if (!checkValidityTag(tag)) {
       inputTags.setCustomValidity('Хэштег может состоять только из букв и чисел');
       return false;
     }
@@ -91,11 +80,11 @@ const onInputTagValidateListener = () => {
   });
 };
 
-const onCommentInputListener = () => {
-  commentInput.addEventListener('keydown', onEcsKeyDown)
+const onInputCommentValidateListener = () => {
+  commentInput.addEventListener('keydown', onEcsKeyDown);
   commentInput.addEventListener('input', () => {
     if (commentInput.value.length > COMMENT_MAX_LENGTH) {
-      commentInput.setCustomValidity('Комментарий не должен превышать 140 символов; Удалите лишние ' + (commentInput.value.length - COMMENT_MAX_LENGTH) +' симв.')
+      commentInput.setCustomValidity('Комментарий не должен превышать 140 символов; Удалите лишние ' + (commentInput.value.length - COMMENT_MAX_LENGTH) + ' симв.')
       commentInput.style.boxShadow = 'inset 0 0 5px 3px red';
     } else {
       commentInput.setCustomValidity('');
@@ -114,5 +103,5 @@ const onEcsKeyDown = (evt) => {
   }
 };
 
-export { onInputTagValidateListener, onCommentInputListener };
+export { onInputTagValidateListener, onInputCommentValidateListener };
 

@@ -62,7 +62,6 @@ const openBigPicture = () => {
   document.body.classList.add('modal-open')
   document.addEventListener('keydown', onPopupEscKeydown);
 
-  // socialCommentCountBlock.classList.add('hidden');
   // при открытии запускаем проверку на комменты, показываем разрешенное кол-во
   showVisibleComments();
   onLikesCountClickListener();
@@ -73,7 +72,7 @@ const closeBigPicture = () => {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscKeydown);
   btnSocialCommentsLoader.removeEventListener('click', onBtnComment);
-  // likesCount.removeEventListener('click', onLikesCountClick)
+  
   // при закрытии большой картинки - снова приравниваем к 5 допустимое число видимых комментариев
   visibleCommentsLength = DEFAULT_VISIBLE_COMMENTS;
 };

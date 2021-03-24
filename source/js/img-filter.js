@@ -24,7 +24,7 @@ const delPictures = () => {
   });
 };
 // «Обсуждаемые» — фотографии, отсортированные в порядке убывания количества комментариев.
-const compareComments = (data) => {
+const sortImagesByComments = (data) => {
   const sortedData = data.sort(function (a, b) {
     const commentsA = a.comments.length;
     const commentsB = b.comments.length;
@@ -39,17 +39,17 @@ const compareComments = (data) => {
   return sortedData;
 };
 
-const btnDiscussedListener = (data) => {
+const getMostCommentedImges = (data) => {
   imgFilterBtnDiscussed.addEventListener('click', _.debounce(
     (() => {
       delPictures();
-      createPicturesElemts(compareComments(data));
+      createPicturesElemts(sortImagesByComments(data));
     }
     ), RERENDER_DELAY,
   ));
 };
 
-const getDefaultData = (data) => {
+const sortImagesById = (data) => {
   const sortedData = data.sort(function (a, b) {
     if (a.id > b.id) {
       return 1;
@@ -62,33 +62,28 @@ const getDefaultData = (data) => {
   return sortedData;
 };
 
-const btnDefaultListener = (data) => {
+const getDefaultImages = (data) => {
   imgFilterBtnDefault.addEventListener('click', _.debounce(
     (() => {
       delPictures();
-      createPicturesElemts(getDefaultData(data));
+      createPicturesElemts(sortImagesById(data));
     }), RERENDER_DELAY,
   ));
 };
 
-const createRandomImg = (data) => {
-  const randomData = getRandomUniqElemets(data, RANDOM_COUNT);
-  createPicturesElemts(randomData);
-};
-
-const btnRandomListener = (data) => {
+const getRandomImages = (data) => {
   imgFilterBtnRandom.addEventListener('click', _.debounce(
     (() => {
       delPictures();
-      createRandomImg(data);
+      createPicturesElemts(getRandomUniqElemets(data, RANDOM_COUNT));
     }), RERENDER_DELAY,
   ));
 };
 
 const renderFilteredImages = (data) => {
-  btnDefaultListener(data);
-  btnRandomListener(data);
-  btnDiscussedListener(data);
+  getDefaultImages(data);
+  getRandomImages(data);
+  getMostCommentedImges(data);
 };
 
 export { showImgFilter, renderFilteredImages };
