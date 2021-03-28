@@ -1,7 +1,44 @@
 /* global noUiSlider:readonly */
+const CHROME_SEPIA_OPTIONS = {
+  range: {
+    min: 0,
+    max: 1,
+  },
+  start: 1,
+  step: 0.1,
+};
+
+const MARVIN_OPTIONS = {
+  range: {
+    min: 0,
+    max: 100,
+  },
+  start: 100,
+  step: 1,
+};
+
+const PHOBOS_OPTIONS = {
+  range: {
+    min: 0,
+    max: 3,
+  },
+  start: 3,
+  step: 0.1,
+};
+
+const HEAT_OPTIONS = {
+  range: {
+    min: 1,
+    max: 3,
+  },
+  start: 3,
+  step: 0.1,
+}
+
+const sliderWrapper = document.querySelector('.img-upload__effect-level');
 const sliderFilter = document.querySelector('.effect-level__slider');
 const uploadImg = document.querySelector('.img-upload__preview > img');
-const filterControlsInput = document.querySelectorAll('.effects__radio');
+const filterControlsWrapper = document.querySelector('.img-upload__effects');
 const effectLevel = document.querySelector('.effect-level__value');
 
 const resetEffectImage = () => {
@@ -9,30 +46,34 @@ const resetEffectImage = () => {
   uploadImg.style.filter = 'none';
 };
 
+const createSlider = (sliderElement) => {
+  noUiSlider.create(sliderElement, {
+    range: {
+      min: 0,
+      max: 100,
+    },
+    start: 50,
+    format: {
+      to: function (value) {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    },
+  });
+};
+
 const initSlider = (sliderElement) => {
   const sliderBase = document.querySelector('.noUi-base');
   // чтобы не было реинициализации - иначе ошибка, проверям есть ли слайдер?
   if (!sliderBase) {
-    noUiSlider.create(sliderElement, {
-      range: {
-        min: 0,
-        max: 100,
-      },
-      start: 50,
-      format: {
-        to: function (value) {
-          if (Number.isInteger(value)) {
-            return value.toFixed(0);
-          }
-          return value.toFixed(1);
-        },
-        from: function (value) {
-          return parseFloat(value);
-        },
-      },
-    });
+    createSlider(sliderElement);
   }
-  sliderElement.classList.add('hidden')
+  sliderWrapper.classList.add('hidden');
 };
 
 const changeFilterImageValue = (sliderElement, img) => {
@@ -57,68 +98,41 @@ const changeFilterImageValue = (sliderElement, img) => {
   });
 };
 
-const changeSliderOption = (sliderElement, array, img) => {
-  for (let index = 0; index < array.length; index++) {
-    const element = array[index];
-
-    element.addEventListener('click', (evt) => {
-      if (evt.target.value == 'none') {
-        img.style.filter = '';
-        sliderElement.classList.add('hidden')
-      }
-
-      if (evt.target.value == 'chrome' || evt.target.value == 'sepia') {
-        sliderElement.classList.remove('hidden')
-        sliderElement.noUiSlider.updateOptions({
-          range: {
-            min: 0,
-            max: 1,
-          },
-          start: 1,
-          step: 0.1,
-        });
-      }
-      if (evt.target.value == 'marvin') {
-        sliderElement.classList.remove('hidden')
-        sliderElement.noUiSlider.updateOptions({
-          range: {
-            min: 0,
-            max: 100,
-          },
-          start: 100,
-          step: 1,
-        });
-      }
-      if (evt.target.value == 'phobos' || evt.target.value == 'heat') {
-        sliderElement.classList.remove('hidden')
-        sliderElement.noUiSlider.updateOptions({
-          range: {
-            min: 0,
-            max: 3,
-          },
-          start: 3,
-          step: 0.1,
-        });
-      }
-      if (evt.target.value == 'heat') {
-        sliderElement.classList.remove('hidden')
-        sliderElement.noUiSlider.updateOptions({
-          range: {
-            min: 1,
-            max: 3,
-          },
-          start: 3,
-          step: 0.1,
-        });
-      }
-    })
+const onRadioEffectBtnClick = (evt) => {
+  if (evt.target.value === 'none') {
+    uploadImg.style.filter = '';
+    sliderWrapper.classList.add('hidden');
   }
+  if (evt.target.value === 'chrome' || evt.target.value === 'sepia') {
+    sliderWrapper.classList.remove('hidden');
+    sliderFilter.noUiSlider.updateOptions(CHROME_SEPIA_OPTIONS);
+  }
+  if (evt.target.value === 'marvin') {
+    sliderWrapper.classList.remove('hidden');
+    sliderFilter.noUiSlider.updateOptions(MARVIN_OPTIONS);
+  }
+  if (evt.target.value === 'phobos') {
+    sliderWrapper.classList.remove('hidden');
+    sliderFilter.noUiSlider.updateOptions(PHOBOS_OPTIONS);
+  }
+  if (evt.target.value === 'heat') {
+    sliderWrapper.classList.remove('hidden');
+    sliderFilter.noUiSlider.updateOptions(HEAT_OPTIONS);
+  }
+};
+
+const changeSliderOption = () => {
+  filterControlsWrapper.addEventListener('click', onRadioEffectBtnClick)
+};
+
+const removeFilterControlsListener = () => {
+  filterControlsWrapper.removeEventListener('click', onRadioEffectBtnClick)
 };
 
 const setSliderImgFilter = () => {
   initSlider(sliderFilter);
   changeFilterImageValue(sliderFilter, uploadImg);
-  changeSliderOption(sliderFilter, filterControlsInput, uploadImg);
+  changeSliderOption();
 };
 
-export { setSliderImgFilter, resetEffectImage };
+export { setSliderImgFilter, resetEffectImage, removeFilterControlsListener };

@@ -1,6 +1,11 @@
 import { isEscEvent } from './util.js';
 
 const COMMENT_MAX_LENGTH = 140;
+const VALID_TAGS_LENGTH = 5;
+// создадим регулярное выражение
+// \w - латинский алфавит
+// \u0400-\u04FF  - кириллица
+const REG_EXP = /^#[\w,\u0400-\u04FF]{1,19}$/;
 
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const inputTags = uploadOverlay.querySelector('.text__hashtags');
@@ -9,14 +14,11 @@ const commentInput = uploadOverlay.querySelector('.text__description');
 // валидный тег - это тот что начинается с решетки и дальше содержит от 1 до 19
 // любого алфавитно-цифрового символа из базового латинского алфавита [A-Za-z0-9_]
 const checkValidityTag = (tag) => {
-  // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp
-  // создадим регульярное выражение
-  const regexp = /^#\w{1,19}$/;
   // проверяем тег на совадение нашему проварилу минимум два символа решетка и еще буква или цифра
   // если метод match не нешал совпадение то значение
   // matchIt будет присвоено null и в этом случаем получим matchIt !== null вернет false, проверка не пройдена
   // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/match
-  const matchIt = tag.match(regexp);
+  const matchIt = tag.match(REG_EXP);
   // -------- возвращаем результут проверки соответсвия правилу
   return matchIt !== null;
 };
@@ -40,26 +42,25 @@ const runValidateTags = (string) => {
     return false;
   }
   // если длина массива с тегами больше 5 - ошибка
-  if (tags.length > 5) {
+  if (tags.length > VALID_TAGS_LENGTH) {
     inputTags.setCustomValidity('Количество хэштегов не должно превышать 5');
     return false;
   }
+  // проверка начала каждого тега, если не решетка - ошибка
+  // хотя у нас уже проверяется решетка регулярным варажением
+  // но чтобы выводить сообщение об конкретной ошибке добавим еще эту проверку
+
   // проходим по каждому тегу
-  for (let i = 0; i < tags.length; i++) {
-    const tag = tags[i];
-    // проверка начала каждого тега, если не решетка - ошибка
-    // хотя у нас уже проверяется решетка регулярным варажением
-    // но чтобы выводить сообщение об конкретной ошибке добавим еще эту проверку
-    if (!tag.startsWith('#')) {
-      inputTags.setCustomValidity('Хэштег должен начинаться с символа #');
-      return false;
-    }
-    // проверяем тег по нашему регулярному выражению
-    if (!checkValidityTag(tag)) {
-      inputTags.setCustomValidity('Хэштег может состоять только из букв и чисел');
-      return false;
-    }
+  if (!tags.every((tag) => tag.startsWith('#'))) {
+    inputTags.setCustomValidity('Хэштег должен начинаться с символа #');
+    return false;
   }
+  // проверяем тег по нашему регулярному выражению
+  if (!tags.every((tag) => checkValidityTag(tag))) {
+    inputTags.setCustomValidity('Хэштег может состоять только из букв и чисел');
+    return false;
+  }
+
   // если всё тру ошибка сбрасывается
   inputTags.style.boxShadow = '';
   inputTags.setCustomValidity('');
@@ -68,12 +69,12 @@ const runValidateTags = (string) => {
 
 const onInputTagValidateListener = () => {
   // как только мы в инпуте, вешает обработчик ECS
-  inputTags.addEventListener('keydown', onEcsKeyDown);
+  inputTags.addEventListener('keydown', stopPropagationKeyEsc);
 
   inputTags.addEventListener('input', () => {
     const inputText = inputTags.value;
     // если проверка возвращает false - выводится ошибка
-    if (runValidateTags(inputText) === false) {
+    if (!runValidateTags(inputText)) {
       inputTags.style.boxShadow = 'inset 0 0 3px 1px red';
       inputTags.reportValidity();
     }
@@ -81,7 +82,7 @@ const onInputTagValidateListener = () => {
 };
 
 const onInputCommentValidateListener = () => {
-  commentInput.addEventListener('keydown', onEcsKeyDown);
+  commentInput.addEventListener('keydown', stopPropagationKeyEsc);
   commentInput.addEventListener('input', () => {
     if (commentInput.value.length > COMMENT_MAX_LENGTH) {
       commentInput.setCustomValidity('Комментарий не должен превышать 140 символов; Удалите лишние ' + (commentInput.value.length - COMMENT_MAX_LENGTH) + ' симв.')
@@ -94,7 +95,7 @@ const onInputCommentValidateListener = () => {
   });
 };
 
-const onEcsKeyDown = (evt) => {
+const stopPropagationKeyEsc = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
     // прекращает слушать нажатую кнопку

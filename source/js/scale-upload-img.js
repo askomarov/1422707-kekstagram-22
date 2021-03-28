@@ -18,7 +18,7 @@ const getInputValue = (input, newValue, img) => {
 const onbuttonSetScaleValue = (button, button2, input, btnValue, btnOffValue, img) => {
   button.addEventListener('click', () => {
     button2.removeAttribute('disabled', 'disabled');
-    if (input.value == Math.abs(btnOffValue) + '%') {
+    if (input.value === Math.abs(btnOffValue) + '%') {
       button.setAttribute('disabled', 'disabled');
     } else {
       button.removeAttribute('disabled', 'disabled');

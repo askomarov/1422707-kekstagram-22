@@ -1,4 +1,6 @@
-const getRandomInteger = function (min, max) {
+const TIME_CLOSE_ALERT = 2000;
+
+const getRandomInteger = (min, max) => {
   if (min < 0 || max < 0) {
     return false;
   }
@@ -14,8 +16,8 @@ const getRandomInteger = function (min, max) {
 const getRandomUniqElemets = (data, RANDOM_COUNT) => {
   const randomUniqData = [];
   while (randomUniqData.length < RANDOM_COUNT) {
-    const element = data[getRandomInteger(0, data.length)];
-    if (!randomUniqData.includes(element) && element !== undefined) {
+    const element = data[getRandomInteger(0, data.length - 1)];
+    if (!randomUniqData.includes(element)) {
       randomUniqData.push(element);
     }
   }
@@ -46,7 +48,7 @@ const showAlert = (message) => {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, 5000);
+  }, TIME_CLOSE_ALERT);
 };
 
 export { getRandomInteger, getRandomUniqElemets, isEscEvent, showAlert };

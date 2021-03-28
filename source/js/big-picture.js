@@ -42,15 +42,11 @@ const createCommentElemnt = (item) => {
 //  // вставляем в список комментариев - фото и текст автора комментария к конкретной фотографии
 const renderCommets = (item) => {
   const comments = item.comments;
-  if (comments.length === 0) {
+  comments.forEach(comment => {
     bigPicCommentsList.innerHTML = '';
-  } else {
-    comments.forEach(comment => {
-      bigPicCommentsList.innerHTML = '';
-      createCommentElemnt(comment);
-    })
-    bigPicCommentsList.appendChild(commentsFragments);
-  }
+    createCommentElemnt(comment);
+  })
+  bigPicCommentsList.appendChild(commentsFragments);
 };
 
 const renderCommentsCount = (num, length) => {
@@ -60,7 +56,7 @@ const renderCommentsCount = (num, length) => {
 const openBigPicture = () => {
   bigPic.classList.remove('hidden');
   document.body.classList.add('modal-open')
-  document.addEventListener('keydown', onPopupEscKeydown);
+  document.addEventListener('keydown', onEscClosePreview);
 
   // при открытии запускаем проверку на комменты, показываем разрешенное кол-во
   showVisibleComments();
@@ -70,14 +66,14 @@ const openBigPicture = () => {
 const closeBigPicture = () => {
   bigPic.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onPopupEscKeydown);
-  btnSocialCommentsLoader.removeEventListener('click', onBtnComment);
-  
+  document.removeEventListener('keydown', onEscClosePreview);
+  btnSocialCommentsLoader.removeEventListener('click', onBtnCommentShowMore);
+
   // при закрытии большой картинки - снова приравниваем к 5 допустимое число видимых комментариев
   visibleCommentsLength = DEFAULT_VISIBLE_COMMENTS;
 };
 
-const onPopupEscKeydown = (evt) => {
+const onEscClosePreview = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
     closeBigPicture();
@@ -107,16 +103,14 @@ const showVisibleComments = () => {
   if (comments.length > DEFAULT_VISIBLE_COMMENTS) {
     btnSocialCommentsLoader.classList.remove('hidden');
     renderCommentsCount(visibleCommentsLength, comments.length);
-    for (let index = 0; index < comments.length; index++) {
-      const element = comments[index];
+    comments.forEach((comment, index) => {
       if (index >= visibleCommentsLength) {
-        element.classList.add('hidden');
-
+        comment.classList.add('hidden');
       }
       else {
-        element.classList.remove('hidden');
+        comment.classList.remove('hidden');
       }
-    }
+    })
   }
   if (comments.length <= visibleCommentsLength) {
     renderCommentsCount(comments.length, comments.length);
@@ -124,15 +118,15 @@ const showVisibleComments = () => {
   }
 };
 
-const onBtnComment = (evt) => {
+const onBtnCommentShowMore = (evt) => {
   evt.preventDefault();
   // на каждый клик по кнопке "показать еще" прибавялем значение видимых комментариев на 5
-  visibleCommentsLength = visibleCommentsLength + 5;
+  visibleCommentsLength = visibleCommentsLength + DEFAULT_VISIBLE_COMMENTS;
   // и запускаем проверку чтобы отобразить
   showVisibleComments();
 };
 
 const onBtnCommetLoaderListener = () => {
-  btnSocialCommentsLoader.addEventListener('click', onBtnComment)
+  btnSocialCommentsLoader.addEventListener('click', onBtnCommentShowMore)
 };
 export { showBigPicture, renderCommets };

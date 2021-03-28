@@ -13,10 +13,9 @@ const resetFormsData = () => {
   uploadForm.reset();
   resetEffectImage();
   resetScaleImage();
-  closeUploadModal();
 };
 
-const onEscKeydownCloseError = (evt) => {
+const onErrorPopupCloseKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
     closePopupError();
@@ -25,31 +24,32 @@ const onEscKeydownCloseError = (evt) => {
 
 const closePopupError = () => {
   document.querySelector('.error').remove();
-  document.removeEventListener('keydown', onEscKeydownCloseError);
-  document.removeEventListener('click', onClickCloseError);
+  document.removeEventListener('keydown', onErrorPopupCloseKeydown);
+  document.removeEventListener('click', onErrorPopupCloseClickAway);
 };
 
-const onClickCloseError = (evt) => {
+const onErrorPopupCloseClickAway = (evt) => {
   if (evt.target.closest('.error__inner') === null) {
     closePopupError();
   }
 };
 
-const onBtnCloseError = (evt) => {
+const onErrorPopupCloseClick = (evt) => {
   closePopupError();
-  evt.target.removeEventListener('click', onBtnCloseError);
+  evt.target.removeEventListener('click', onErrorPopupCloseClick);
 };
 
 const showErrorPopupMessage = () => {
   const messageElement = errorMessageTemplate.cloneNode(true);
   mainContentWrap.append(messageElement);
   const closeErrPopupBtn = document.querySelector('.error__button');
-  closeErrPopupBtn.addEventListener('click', onBtnCloseError);
-  document.addEventListener('keydown', onEscKeydownCloseError);
-  document.addEventListener('click', onClickCloseError);
+  closeErrPopupBtn.addEventListener('click', onErrorPopupCloseClick);
+  document.addEventListener('keydown', onErrorPopupCloseKeydown);
+  document.addEventListener('click', onErrorPopupCloseClickAway);
 };
 
 const onFailSubmit = () => {
+  closeUploadModal();
   resetFormsData();
   showErrorPopupMessage();
 };
@@ -59,39 +59,40 @@ const successMessageTemplate = document.querySelector('#success').content.queryS
 
 const closeSuccessPopup = () => {
   document.querySelector('.success').remove();
-  document.removeEventListener('keydown', onEscKeydownCloseSuccess);
-  document.removeEventListener('click', onClickCloseSuccess);
+  document.removeEventListener('keydown', onSuccessPopupCloseKeydown);
+  document.removeEventListener('click', onSuccessPopupCloseClickAway);
 };
 
-const onClickCloseSuccess = (evt) => {
+const onSuccessPopupCloseClickAway = (evt) => {
   if (evt.target.closest('.success__inner') === null) {
     closeSuccessPopup();
   }
 };
 
-const onEscKeydownCloseSuccess = (evt) => {
+const onSuccessPopupCloseKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
     closeSuccessPopup();
   }
 };
 
-const onBtnCloseSuccess = (evt) => {
+const onSuccessPopupCloseClick = (evt) => {
   closeSuccessPopup();
-  evt.target.removeEventListener('click', onBtnCloseSuccess);
+  evt.target.removeEventListener('click', onSuccessPopupCloseClick);
 };
 
 const showSuccessPopupMessage = () => {
   const messageElement = successMessageTemplate.cloneNode(true);
   mainContentWrap.append(messageElement);
   const closeSuccessPopupBtn = document.querySelector('.success__button');
-  closeSuccessPopupBtn.addEventListener('click', onBtnCloseSuccess);
-  document.addEventListener('keydown', onEscKeydownCloseSuccess);
-  document.addEventListener('click', onClickCloseSuccess);
+  closeSuccessPopupBtn.addEventListener('click', onSuccessPopupCloseClick);
+  document.addEventListener('keydown', onSuccessPopupCloseKeydown);
+  document.addEventListener('click', onSuccessPopupCloseClickAway);
 };
 
 ///////// отправка формы нового объяаления
 const onSuccessSubmit = () => {
+  closeUploadModal();
   resetFormsData();
   showSuccessPopupMessage();
 };
